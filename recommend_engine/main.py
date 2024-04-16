@@ -2,16 +2,8 @@ import math
 import pandas as pd
 
 
-def recommend_job():
-    # CSV file path
-    job_file_path = '../resources/jobs.csv'
-    seeker_file_path = '../resources/jobseekers.csv'
-
-    # read csv files
-    df_job = pd.read_csv(job_file_path)
-    df_seeker = pd.read_csv(seeker_file_path)
+def recommend_job(df_job, df_seeker):
     pd.set_option('display.max_columns', None)
-
     # For each jobseeker, iterate each job and sort the results
     # Complexity O(N*M) where N is no. of jobseekers and M is no. of jobs
     output = []
@@ -33,7 +25,7 @@ def recommend_job():
             matching_skill_count = len(matching_skill)
             matching_skill_percent = math.floor((matching_skill_count / job_skills_count) * 100)
 
-            # Append to seeker result
+            # Append to result
             if matching_skill_count >= 1:
                 output.append({
                     'jobseeker_id': seeker_id,
@@ -44,13 +36,45 @@ def recommend_job():
                     'matching_skill_percent': matching_skill_percent
                 })
 
+    # Call handle output function
+    return handle_output(output)
+
+
+def read_csv():
+    # Handle csv inputs
+    # CSV file path
+    job_file_path = '../resources/jobs.csv'
+    seeker_file_path = '../resources/jobseekers.csv'
+
+    # read csv files
+    df_job = df_seeker = None
+    try:
+        df_job = pd.read_csv(job_file_path)
+    except FileNotFoundError:
+        print("Job csv file not found. Please check the file path.")
+    try:
+        df_seeker = pd.read_csv(seeker_file_path)
+    except FileNotFoundError:
+        print("Job seeker csv file not found. Please check the file path.")
+
+    # Final check
+    if df_job is None or df_seeker is None:
+        print("One or both CSV files could not be loaded. Please check the file paths.")
+        exit()
+
+    return df_job, df_seeker
+
+
+def handle_output(output):
     # Sorting result using pd sort
     # Based on Seeker id, matching skill percentage and job id
     output_df = pd.DataFrame(output)
     output_df.sort_values(by=['jobseeker_id', 'matching_skill_percent', 'job_id'],
                           ascending=[True, False, True], inplace=True)
     print(output_df)
+    return output_df
 
 
 if __name__ == "__main__":
-    recommend_job()
+    job, seeker = read_csv()
+    recommend_job(job, seeker)
