@@ -1,4 +1,5 @@
 import math
+import os
 import pandas as pd
 
 
@@ -43,8 +44,9 @@ def recommend_job(df_job, df_seeker):
 def read_csv():
     # Handle csv inputs
     # CSV file path
-    job_file_path = '../resources/jobs.csv'
-    seeker_file_path = '../resources/jobseekers.csv'
+    main_dir = os.path.dirname(os.path.abspath(__file__))
+    job_file_path = os.path.join(main_dir, '..', 'resources', 'jobs.csv')
+    seeker_file_path = os.path.join(main_dir, '..', 'resources', 'jobseekers.csv')
 
     # read csv files
     df_job = df_seeker = None
