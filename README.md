@@ -1,5 +1,10 @@
 # ReadyTech Coding Challenge: Job Match Recommendation Engine
 
+# Setup
+cd ReadyTechInterview
+
+pip install -r requirements.txt
+
 # Run code
 cd ReadyTechInterview/recommend_engine
 
