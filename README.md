@@ -7,5 +7,6 @@ python main.py
 
 # Run tests
 cd ReadyTechInterview
+
 python -m recommend_engine.test.test_main
 
