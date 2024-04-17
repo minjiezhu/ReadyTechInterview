@@ -48,7 +48,7 @@ def read_csv():
     job_file_path = os.path.join(main_dir, '..', 'resources', 'jobs.csv')
     seeker_file_path = os.path.join(main_dir, '..', 'resources', 'jobseekers.csv')
 
-    # read csv files
+    # read csv files with try catch
     df_job = df_seeker = None
     try:
         df_job = pd.read_csv(job_file_path)
@@ -59,7 +59,7 @@ def read_csv():
     except FileNotFoundError:
         print("Job seeker csv file not found. Please check the file path.")
 
-    # Final check
+    # Final check for Nones
     if df_job is None or df_seeker is None:
         print("One or both CSV files could not be loaded. Please check the file paths.")
         exit()
@@ -73,6 +73,8 @@ def handle_output(output):
     output_df = pd.DataFrame(output)
     output_df.sort_values(by=['jobseeker_id', 'matching_skill_percent', 'job_id'],
                           ascending=[True, False, True], inplace=True)
+
+    # Currently print out as result output
     print(output_df)
     return output_df
 
